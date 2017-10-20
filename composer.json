@@ -2,8 +2,14 @@
     "name": "mrabun/cmb2-code-editor",
     "description": "provides multisource code editor metabox for CMB2",
     "license": "MIT",
-    "authors":[{"name":"Marc Rabun", "email": "marcrbn26@gmail.com","role": "developer"}],
+    "authors": [{
+            "name": "Marc Rabun",
+            "email": "marcrbn26@gmail.com",
+            "role": "developer"
+        }],
     "keywords": ["wordpress", "CMB2", "metabox"],
-    "type":"wordpress-plugin",
-    "require": {"php": ">5.2.4"}
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">5.2.4"
+    }
 }
