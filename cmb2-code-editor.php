@@ -3,7 +3,7 @@
   Plugin Name: CMB2 Code Editor
   Plugin URI:
   Description:
-  Version: 0.0.1
+  Version: 0.1.0
   Author: Marc Rabun
   Author URI:
   License: MIT
@@ -34,7 +34,7 @@
  */
 /**
  * @package  CMB2CodeEditor
- * @version 0.0.1
+ * @version 0.1.0
  * 
  * * */
 defined('ABSPATH') or die();
@@ -46,7 +46,7 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
          * version
          * @var string
          * */
-        const VERSION = '0.0.1';
+        const VERSION = '0.1.0';
 
         /**
          * priority
