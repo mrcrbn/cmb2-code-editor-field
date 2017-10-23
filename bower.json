@@ -2,8 +2,9 @@
     "name": "cmb2-code-editor",
     "version": "1.0.0",
     "dependencies": {
+        "codemirror": "5.30.0"
     },
     "devDependencies": {
-        "codemirror": "5.30.0"
+        
     }
 }
