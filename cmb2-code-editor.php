@@ -91,7 +91,7 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             $this->cm_mode_url = $this->cm_base_url . 'mode';
             $this->cm_theme_url = $this->cm_base_url . 'theme';
             $this->cm_addon_url = $this->cm_base_url . 'addon';
-            
+            $this->load_scripts();
             add_action('cmb2_render_ceditor', array($this, 'cmb2_render_code_editor_callback'), 10, 5);
             add_filter('cmb2_sanitize_ceditor',  array($this, 'cmb2_sanitize_code_editor'), 10, 2);
         }
@@ -102,7 +102,7 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             $cm_options = $field->args['options'];
 
             //enqueue scripts and styles used for codeeditor field
-            $this->load_scripts($cm_options);
+            $this->load_cm_theme($cm_options);//$this->load_scripts($cm_options);
 
             $value = wp_parse_args($value, array(
                 'cm_code' => ''
@@ -129,13 +129,13 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             <?php
         }
 
-        private function load_scripts($cm_options) {
+        private function load_scripts() {
             //TODO check for no codemirror libs, css or scripts
            
             wp_enqueue_style('codemirror-css', $this->cm_lib_url . '/codemirror.css', false);
 
             //this will load for each unique theme used in an istance of CodeMirror
-            wp_enqueue_style('codemirror-' . $cm_options['theme'], $this->cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
+            //wp_enqueue_style('codemirror-' . $cm_options['theme'], $this->cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
 
             wp_enqueue_style('codemirror-fullscreen-css', $this->cm_addon_url . '/display/fullscreen.css', false);
             wp_enqueue_style('custom-css', plugins_url('css/cmb2_code_editor.css', __FILE__), false);
@@ -147,6 +147,11 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             wp_enqueue_script('codemirror-setup', plugins_url('js/cmb2_code_editor.js', __FILE__), array(), false, true);
 
             wp_add_inline_script('codemirror-setup', 'var cm_base_url =  "'. $this->cm_base_url .'" ;', 'before');
+        }
+        private function load_cm_theme($cm_options){
+            
+            wp_enqueue_style('codemirror-' . $cm_options['theme'], $this->cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
+
         }
 
     }
