@@ -86,13 +86,17 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
 
         function __construct() {
             $this->cm_base_url = plugins_url('vendor/codemirror' . DIRECTORY_SEPARATOR, __FILE__);
-            $this->cm_lib_url = $cm_base_url . 'lib';
-            $this->cm_mode_url = $cm_base_url . 'mode';
-            $this->cm_theme_url = $cm_base_url . 'theme';
-            $this->cm_addon_url = $cm_base_url . 'addon';
+            
+            $this->cm_lib_url = $this->cm_base_url . 'lib';
+            $this->cm_mode_url = $this->cm_base_url . 'mode';
+            $this->cm_theme_url = $this->cm_base_url . 'theme';
+            $this->cm_addon_url = $this->cm_base_url . 'addon';
+            
+            add_action('cmb2_render_ceditor', array($this, 'cmb2_render_code_editor_callback'), 10, 5);
+            add_filter('cmb2_sanitize_ceditor',  array($this, 'cmb2_sanitize_code_editor'), 10, 2);
         }
 
-        function cmb2_render_codeeditor_callback($field, $value, $object_id, $object_type, $field_type) {
+        function cmb2_render_code_editor_callback($field, $value, $object_id, $object_type, $field_type) {
 
             //options used for code mirror
             $cm_options = $field->args['options'];
@@ -107,7 +111,7 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             $this->render($cm_options, $field_type, $value);
         }
 
-        function cmb2_sanitize_codeeditor($override_value, $value) {
+        function cmb2_sanitize_code_editor($override_value, $value) {
             return $value;
         }
 
@@ -127,22 +131,22 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
 
         private function load_scripts($cm_options) {
             //TODO check for no codemirror libs, css or scripts
-
-            wp_enqueue_style('codemirror-css', $cm_lib_url . '/codemirror.css', false);
+           
+            wp_enqueue_style('codemirror-css', $this->cm_lib_url . '/codemirror.css', false);
 
             //this will load for each unique theme used in an istance of CodeMirror
-            wp_enqueue_style('codemirror-' . $cm_options['theme'], $cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
+            wp_enqueue_style('codemirror-' . $cm_options['theme'], $this->cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
 
-            wp_enqueue_style('codemirror-fullscreen-css', $cm_addon_url . '/display/fullscreen.css', false);
-            wp_enqueue_style('custom-css', plugins_url('css/custom.css', __FILE__), false);
+            wp_enqueue_style('codemirror-fullscreen-css', $this->cm_addon_url . '/display/fullscreen.css', false);
+            wp_enqueue_style('custom-css', plugins_url('css/cmb2_code_editor.css', __FILE__), false);
 
-            wp_enqueue_script('codemirror-js', $cm_lib_url . '/codemirror.js', array(), false, false);
-            wp_enqueue_script('codemirror-load', $cm_addon_url . '/mode/loadmode.js', array(), false, false);
-            wp_enqueue_script('codemirror-fullscreen-js', $cm_addon_url . '/display/fullscreen.js', array(), false, false);
-            wp_enqueue_script('codemirror-panel-js', $cm_addon_url . '/display/panel.js', array(), false, false);
-            wp_enqueue_script('codemirror-setup', plugins_url('scripts/setup.js', __FILE__), array(), false, true);
+            wp_enqueue_script('codemirror-js', $this->cm_lib_url . '/codemirror.js', array(), false, false);
+            wp_enqueue_script('codemirror-load', $this->cm_addon_url . '/mode/loadmode.js', array(), false, false);
+            wp_enqueue_script('codemirror-fullscreen-js', $this->cm_addon_url . '/display/fullscreen.js', array(), false, false);
+            wp_enqueue_script('codemirror-panel-js', $this->cm_addon_url . '/display/panel.js', array(), false, false);
+            wp_enqueue_script('codemirror-setup', plugins_url('js/cmb2_code_editor.js', __FILE__), array(), false, true);
 
-            wp_add_inline_script('codemirror_base_url', "var cm_base_url = '" . $this->$cm_base_url . "';");
+            wp_add_inline_script('codemirror-setup', 'var cm_base_url =  "'. $this->cm_base_url .'" ;', 'before');
         }
 
     }
