@@ -1,10 +1,27 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Oct 20, 2017, 2:31:04 PM
-    Author     : Marc
-*/
 
+/**
+in full screen, we need to set z-index higher then wordpress's setting
+for the admin menu, or the menu covers the editor
+**/
+.CodeMirror-fullscreen {
+    z-index:100000 !important;
+}
+.CodeMirror-fullscreen > .cm_editor_label{
+    display:none;
+}
+/**label for current mode**/
+.cm_editor_label{    
+    position: absolute;
+    right:3%;
+    background-color: yellow;
+    z-index: 10000;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    opacity: 0.7;
+    font-size: 11px;
+    
+}
+.hideLabel{
+    display: none;
+}
