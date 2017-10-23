@@ -1,5 +1,4 @@
 <?php
-
 /*
   Plugin Name: CMB2 Code Editor
   Plugin URI:
@@ -94,22 +93,41 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
         }
 
         function cmb2_render_codeeditor_callback($field, $value, $object_id, $object_type, $field_type) {
+
+            //options used for code mirror
             $cm_options = $field->args['options'];
+
+            //enqueue scripts and styles used for codeeditor field
             $this->load_scripts($cm_options);
+
+            $value = wp_parse_args($value, array(
+                'cm_code' => ''
+            ));
             
+            $this->render($cm_options, $field_type, $value);
         }
 
         function cmb2_sanitize_codeeditor($override_value, $value) {
             return $value;
         }
 
-        private function render() {
-            
+        private function render($cm_options, $field_type, $value) {
+            ?>
+
+            <textarea class="codemirror_txtarea"
+                      role="wp_codemirror"
+                      data-mode="<?php echo $cm_options['mode']; ?>"
+                      data-theme="<?php echo $cm_options['theme']; ?>"
+                      name="<?php echo $field_type->_name('[cm_code]') ?>"
+                      id="<?php echo $field_type->_id('_cm_code') ?>" 
+                      value=""><?php echo $value['cm_code'] ?>
+            </textarea>
+            <?php
         }
 
         private function load_scripts($cm_options) {
             //TODO check for no codemirror libs, css or scripts
-            
+
             wp_enqueue_style('codemirror-css', $cm_lib_url . '/codemirror.css', false);
 
             //this will load for each unique theme used in an istance of CodeMirror
@@ -123,6 +141,8 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             wp_enqueue_script('codemirror-fullscreen-js', $cm_addon_url . '/display/fullscreen.js', array(), false, false);
             wp_enqueue_script('codemirror-panel-js', $cm_addon_url . '/display/panel.js', array(), false, false);
             wp_enqueue_script('codemirror-setup', plugins_url('scripts/setup.js', __FILE__), array(), false, true);
+
+            wp_add_inline_script('codemirror_base_url', "var cm_base_url = '" . $this->$cm_base_url . "';");
         }
 
     }
