@@ -3,6 +3,13 @@
 in full screen, we need to set z-index higher then wordpress's setting
 for the admin menu, or the menu covers the editor
 **/
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+  min-height: 400px;
+  max-height: 700px;
+}
+
 .CodeMirror-fullscreen {
     z-index:100000 !important;
 }
