@@ -91,6 +91,8 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             $this->cm_mode_url = $this->cm_base_url . 'mode';
             $this->cm_theme_url = $this->cm_base_url . 'theme';
             $this->cm_addon_url = $this->cm_base_url . 'addon';
+            
+            //enqueue scripts and styles
             $this->load_scripts();
 
             add_action('cmb2_render_ceditor', array($this, 'cmb2_render_code_editor_callback'), 10, 5);
@@ -147,7 +149,13 @@ if (!class_exists('RBN001_CMB2CodeEditor', FALSE)) {
             wp_add_inline_script('codemirror-setup', 'var cm_base_url =  "' . $this->cm_base_url . '" ;', 'before');
         }
 
+        /**
+         * each editor can have a specified theme. we need to load the theme from the 
+         * code mirror lib for each unique theme used.
+         * */
         private function load_cm_theme($cm_options) {
+
+
             if (!wp_style_is('codemirror-' . $cm_options['theme'], 'enqueued')) {
                 wp_enqueue_style('codemirror-' . $cm_options['theme'], $this->cm_theme_url . '/' . $cm_options['theme'] . '.css', false);
             }

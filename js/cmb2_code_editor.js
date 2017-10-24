@@ -59,7 +59,6 @@ var MutationObserver = window.MutationObserver
         || window.MozMutationObserver;
 
 var editorObserver = new MutationObserver(function(ev){
-    console.log(ev);
     if (ev[0].addedNodes.length > 0) {
 
         var editors = ev[0].target.querySelectorAll('.CodeMirror');
